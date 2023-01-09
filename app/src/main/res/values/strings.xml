@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SampleCompose</string>
+    <string name="home_label_header_title">Game For You</string>
+    <string name="favorite_label_header_title">Favorite</string>
+</resources>

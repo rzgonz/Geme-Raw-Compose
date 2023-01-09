@@ -1,0 +1,96 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+apply from : "$rootDir/gradle/libmodule.gradle.kt"
+android {
+    compileSdk AppConfig.CompileSdkVersion
+
+    defaultConfig {
+        applicationId "com.example.samplecompose"
+        minSdk AppConfig.MinSdkVersion
+        targetSdk AppConfig.TargetSdkVersion
+        versionCode AppConfig.versionCode
+        versionName AppConfig.versionName
+
+        testInstrumentationRunner AppConfig.TestInstrumentationRunner
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion LibsVersion.kotlinCompilerExtensionVersion
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+
+
+    implementation project(":shared:common")
+    implementation project(":shared:network")
+    implementation project(":shared:presistance")
+
+
+    implementation Libraries.coreKtx
+
+    def composeBom = platform(Libraries.composeBom)
+    implementation composeBom
+    androidTestImplementation composeBom
+    implementation Libraries.compose_ui
+    implementation Libraries.compose_material
+    implementation Libraries.compose_activity
+    implementation Libraries.compose_viewModel
+    implementation Libraries.compose_liveData
+    // optional - Jetpack Compose integration
+    implementation("androidx.paging:paging-compose:1.0.0-alpha17")
+    implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"
+    implementation "androidx.navigation:navigation-compose:2.5.3"
+    implementation Libraries.koinCompose
+
+
+    implementation Libraries.runtimeKtx
+
+    //Database
+    def room_version = "2.4.3"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
+
+    testImplementation TestLibraries.junit
+    androidTestImplementation InstrumentedTestLibraries.junit
+    androidTestImplementation InstrumentedTestLibraries.espresso
+    androidTestImplementation Libraries.compose_unitTest
+
+
+    debugImplementation Libraries.compose_tooling
+    debugImplementation Libraries.compose_manifestTest
+}

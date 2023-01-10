@@ -89,6 +89,7 @@ dependencies {
     androidTestImplementation InstrumentedTestLibraries.junit
     androidTestImplementation InstrumentedTestLibraries.espresso
     androidTestImplementation Libraries.compose_unitTest
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
 
 
     debugImplementation Libraries.compose_tooling
